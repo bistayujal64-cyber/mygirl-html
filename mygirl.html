@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday Aayuska</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff4da6,#6a5cff);
+overflow:hidden;
+color:white;
+text-align:center;
+}
+
+.card{
+background:rgba(255,255,255,0.15);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+max-width:420px;
+}
+
+button{
+background:white;
+color:#ff4da6;
+border:none;
+padding:12px 25px;
+font-size:18px;
+border-radius:30px;
+cursor:pointer;
+margin-top:20px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+#giftBtn{
+display:none;
+}
+
+#cake{
+display:none;
+font-size:70px;
+margin-top:20px;
+}
+
+#loveMessage{
+margin-top:20px;
+font-size:20px;
+min-height:80px;
+white-space:pre-line;
+}
+
+#score{
+font-size:22px;
+margin-top:15px;
+}
+
+.heart{
+position:absolute;
+font-size:30px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+
+<h1>Happy Birthday Aayuska ❤️</h1>
+
+<p>I made a special surprise just for you.</p>
+
+<button id="giftBtn" onclick="startGame()">Tap the Gift 🎁</button>
+
+<div id="cake">🎂</div>
+
+<p id="loveMessage"></p>
+
+<p id="score"></p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+/* show gift button after 3 seconds */
+
+setTimeout(function(){
+document.getElementById("giftBtn").style.display="inline-block";
+},3000);
+
+
+/* start game */
+
+let score = 2;
+let gameRunning = false;
+
+function startGame(){
+
+document.getElementById("music").play();
+
+score = 0;
+gameRunning = true;
+
+document.getElementById("score").innerHTML =
+"Game Started! Catch the Hearts 💖<br>Score: 0";
+
+spawnHearts();
+
+setTimeout(endGame,15000);
+
+}
+
+
+/* heart game */
+
+function spawnHearts(){
+
+if(!gameRunning) return;
+
+var heart = document.createElement("div");
+
+heart.className = "heart";
+heart.innerHTML = "💖";
+
+heart.style.left = Math.random()*90 + "vw";
+heart.style.top = "-30px";
+
+document.body.appendChild(heart);
+
+heart.onclick = function(){
+
+score++;
+
+document.getElementById("score").innerHTML = "Score: " + score;
+
+heart.remove();
+
+}
+
+var fall = setInterval(function(){
+
+heart.style.top = (heart.offsetTop + 4) + "px";
+
+if(heart.offsetTop > window.innerHeight){
+
+heart.remove();
+clearInterval(fall);
+
+}
+
+},20);
+
+setTimeout(spawnHearts,700);
+
+}
+
+
+/* end game */
+
+function endGame(){
+
+gameRunning = false;
+
+confetti({
+particleCount:200,
+spread:120
+});
+
+document.getElementById("score").innerHTML =
+"Game Over ❤️ Final Score: " + score;
+
+
+/* show cake */
+
+setTimeout(function(){
+
+document.getElementById("cake").style.display = "block";
+
+},2000);
+
+
+/* start typing message */
+
+setTimeout(typeMessage,4000);
+
+}
+
+
+/* typing effect */
+
+var text =
+"Happy Birthday Aayuska 🎉❤️\n\nYou are the most special person in my life.\nThank you for coming into my world.\n\nI promise to always make you smile and stay with you forever 💖";
+
+var i = 0;
+
+function typeMessage(){
+
+if(i < text.length){
+
+document.getElementById("loveMessage").innerHTML += text.charAt(i);
+
+i++;
+
+setTimeout(typeMessage,40);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
